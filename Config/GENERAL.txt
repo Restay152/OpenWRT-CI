@@ -1,3 +1,88 @@
+#
+# Automatically generated file; DO NOT EDIT.
+# LibWrt Configuration
+#
+CONFIG_MODULES=y
+CONFIG_HAVE_DOT_CONFIG=y
+CONFIG_HOST_OS_LINUX=y
+# CONFIG_HOST_OS_MACOS is not set
+# CONFIG_TARGET_airoha is not set
+# CONFIG_TARGET_d1 is not set
+# CONFIG_TARGET_sunxi is not set
+# CONFIG_TARGET_apm821xx is not set
+# CONFIG_TARGET_armsr is not set
+# CONFIG_TARGET_ath79 is not set
+# CONFIG_TARGET_bcm27xx is not set
+# CONFIG_TARGET_bcm53xx is not set
+# CONFIG_TARGET_bcm47xx is not set
+# CONFIG_TARGET_bcm4908 is not set
+# CONFIG_TARGET_bmips is not set
+# CONFIG_TARGET_octeon is not set
+# CONFIG_TARGET_gemini is not set
+# CONFIG_TARGET_econet is not set
+# CONFIG_TARGET_mpc85xx is not set
+# CONFIG_TARGET_mxs is not set
+# CONFIG_TARGET_ixp4xx is not set
+# CONFIG_TARGET_lantiq is not set
+# CONFIG_TARGET_loongarch64 is not set
+# CONFIG_TARGET_malta is not set
+# CONFIG_TARGET_pistachio is not set
+# CONFIG_TARGET_mvebu is not set
+# CONFIG_TARGET_kirkwood is not set
+# CONFIG_TARGET_mediatek is not set
+# CONFIG_TARGET_ramips is not set
+# CONFIG_TARGET_at91 is not set
+# CONFIG_TARGET_microchipsw is not set
+# CONFIG_TARGET_tegra is not set
+# CONFIG_TARGET_layerscape is not set
+# CONFIG_TARGET_qoriq is not set
+# CONFIG_TARGET_imx is not set
+CONFIG_TARGET_qualcommax=y
+# CONFIG_TARGET_qualcommbe is not set
+# CONFIG_TARGET_ipq40xx is not set
+# CONFIG_TARGET_ipq806x is not set
+# CONFIG_TARGET_realtek is not set
+# CONFIG_TARGET_rockchip is not set
+# CONFIG_TARGET_stm32 is not set
+# CONFIG_TARGET_sifiveu is not set
+# CONFIG_TARGET_siflower is not set
+# CONFIG_TARGET_starfive is not set
+# CONFIG_TARGET_omap is not set
+# CONFIG_TARGET_uml is not set
+# CONFIG_TARGET_zynq is not set
+# CONFIG_TARGET_x86 is not set
+# CONFIG_TARGET_qualcommax_ipq807x is not set
+CONFIG_TARGET_qualcommax_ipq60xx=y
+# CONFIG_TARGET_qualcommax_ipq50xx is not set
+# CONFIG_TARGET_MULTI_PROFILE is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_8devices_mango-dvk is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_alfa-network_ap120c-ax is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_cambiumnetworks_xe3-4 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_kt_ar06-012h is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_lg_gapd-7500 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_glinet_gl-ax1800 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_glinet_gl-axt1800 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_linksys_mr7350 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_linksys_mr7500 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_netgear_wax214 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_netgear_wax610 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_netgear_wax610y is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_qihoo_360v6 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_tplink_eap610od is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_tplink_eap623od-hd-v1 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_tplink_eap625od-hd-v1 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_yuncore_fap650 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_anysafe_e1 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_cmiot_ax18 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_redmi_ax5 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_xiaomi_ax1800 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_zn_m2 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_redmi_ax5-jdcloud is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_link_nn6000-v1 is not set
+CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_link_nn6000-v2=y
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_jdcloud_re-ss-01 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_jdcloud_re-cs-02 is not set
+# CONFIG_TARGET_qualcommax_ipq60xx_DEVICE_jdcloud_re-cs-07 is not set
 CONFIG_HAS_SUBTARGETS=y
 CONFIG_HAS_DEVICES=y
 CONFIG_TARGET_BOARD="qualcommax"
@@ -11,8 +96,10 @@ CONFIG_DEFAULT_ath11k-firmware-ipq6018=y
 CONFIG_DEFAULT_autocore=y
 CONFIG_DEFAULT_automount=y
 CONFIG_DEFAULT_base-files=y
+CONFIG_DEFAULT_block-mount=y
 CONFIG_DEFAULT_ca-bundle=y
 CONFIG_DEFAULT_cpufreq=y
+CONFIG_DEFAULT_default-settings-chn=y
 CONFIG_DEFAULT_dnsmasq-full=y
 CONFIG_DEFAULT_dropbear=y
 CONFIG_DEFAULT_e2fsprogs=y
@@ -30,6 +117,7 @@ CONFIG_DEFAULT_kmod-fs-f2fs=y
 CONFIG_DEFAULT_kmod-gpio-button-hotplug=y
 CONFIG_DEFAULT_kmod-leds-gpio=y
 CONFIG_DEFAULT_kmod-leds-pwm=y
+CONFIG_DEFAULT_kmod-nf-nathelper=y
 CONFIG_DEFAULT_kmod-nft-offload=y
 CONFIG_DEFAULT_kmod-phy-aquantia=y
 CONFIG_DEFAULT_kmod-phy-qca83xx=y
@@ -320,10 +408,6 @@ CONFIG_KERNEL_F2FS_FS_SECURITY=y
 CONFIG_KERNEL_UBIFS_FS_SECURITY=y
 CONFIG_KERNEL_JFFS2_FS_SECURITY=y
 # CONFIG_KERNEL_WERROR is not set
-CONFIG_KERNEL_PREEMPT_NONE=y
-# CONFIG_KERNEL_PREEMPT_VOLUNTARY is not set
-# CONFIG_KERNEL_PREEMPT is not set
-# CONFIG_KERNEL_PREEMPT_RT is not set
 # end of Kernel build options
 
 #
@@ -332,7 +416,8 @@ CONFIG_KERNEL_PREEMPT_NONE=y
 # CONFIG_DEBUG is not set
 # CONFIG_USE_GC_SECTIONS is not set
 # CONFIG_USE_LTO is not set
-# CONFIG_MOLD is not set
+CONFIG_MOLD=y
+# CONFIG_USE_MOLD is not set
 CONFIG_IPV6=y
 
 #
@@ -1893,7 +1978,6 @@ CONFIG_PACKAGE_libiwinfo-data=y
 # CONFIG_PACKAGE_ipq-wifi-asus_rt-ax89x is not set
 # CONFIG_PACKAGE_ipq-wifi-buffalo_wxr-5950ax12 is not set
 # CONFIG_PACKAGE_ipq-wifi-cambiumnetworks_xe34 is not set
-# CONFIG_PACKAGE_ipq-wifi-cmcc_mr3000d-ci is not set
 # CONFIG_PACKAGE_ipq-wifi-cmcc_rm2-6 is not set
 # CONFIG_PACKAGE_ipq-wifi-cmiot_ax18 is not set
 # CONFIG_PACKAGE_ipq-wifi-compex_wpq873 is not set
@@ -1909,6 +1993,8 @@ CONFIG_PACKAGE_libiwinfo-data=y
 # CONFIG_PACKAGE_ipq-wifi-jdcloud_re-cs-02 is not set
 # CONFIG_PACKAGE_ipq-wifi-jdcloud_re-cs-03 is not set
 # CONFIG_PACKAGE_ipq-wifi-jdcloud_re-ss-01 is not set
+# CONFIG_PACKAGE_ipq-wifi-kt_ar06-012h is not set
+# CONFIG_PACKAGE_ipq-wifi-lg_gapd-7500 is not set
 CONFIG_PACKAGE_ipq-wifi-link_nn6000=y
 # CONFIG_PACKAGE_ipq-wifi-linksys_homewrk is not set
 # CONFIG_PACKAGE_ipq-wifi-linksys_mr5500 is not set
@@ -1924,14 +2010,11 @@ CONFIG_PACKAGE_ipq-wifi-link_nn6000=y
 # CONFIG_PACKAGE_ipq-wifi-linksys_spnmx56 is not set
 # CONFIG_PACKAGE_ipq-wifi-linksys_whw03 is not set
 # CONFIG_PACKAGE_ipq-wifi-meraki_mr30h is not set
-# CONFIG_PACKAGE_ipq-wifi-meraki_underdog is not set
 # CONFIG_PACKAGE_ipq-wifi-meraki_z3 is not set
 # CONFIG_PACKAGE_ipq-wifi-netgear_lbr20 is not set
 # CONFIG_PACKAGE_ipq-wifi-netgear_rax120v2 is not set
 # CONFIG_PACKAGE_ipq-wifi-netgear_rbk20 is not set
-# CONFIG_PACKAGE_ipq-wifi-netgear_rbk350 is not set
 # CONFIG_PACKAGE_ipq-wifi-netgear_rbk40 is not set
-# CONFIG_PACKAGE_ipq-wifi-netgear_rbk750 is not set
 # CONFIG_PACKAGE_ipq-wifi-netgear_sxk80 is not set
 # CONFIG_PACKAGE_ipq-wifi-netgear_wax214 is not set
 # CONFIG_PACKAGE_ipq-wifi-netgear_wax218 is not set
@@ -1939,7 +2022,6 @@ CONFIG_PACKAGE_ipq-wifi-link_nn6000=y
 # CONFIG_PACKAGE_ipq-wifi-netgear_wax610y is not set
 # CONFIG_PACKAGE_ipq-wifi-netgear_wax620 is not set
 # CONFIG_PACKAGE_ipq-wifi-netgear_wax630 is not set
-# CONFIG_PACKAGE_ipq-wifi-philips_ly1800 is not set
 # CONFIG_PACKAGE_ipq-wifi-prpl_haze is not set
 # CONFIG_PACKAGE_ipq-wifi-qihoo_360v6 is not set
 # CONFIG_PACKAGE_ipq-wifi-qnap_301w is not set
@@ -1948,8 +2030,6 @@ CONFIG_PACKAGE_ipq-wifi-link_nn6000=y
 # CONFIG_PACKAGE_ipq-wifi-redmi_ax6 is not set
 # CONFIG_PACKAGE_ipq-wifi-skspruce_wia3300-20 is not set
 # CONFIG_PACKAGE_ipq-wifi-spectrum_sax1v1k is not set
-# CONFIG_PACKAGE_ipq-wifi-sy_y6010 is not set
-# CONFIG_PACKAGE_ipq-wifi-tcl_linkhub-hh500v is not set
 # CONFIG_PACKAGE_ipq-wifi-tplink_archer-c59-v1 is not set
 # CONFIG_PACKAGE_ipq-wifi-tplink_archer-c6-v2 is not set
 # CONFIG_PACKAGE_ipq-wifi-tplink_archer-c60-v1 is not set
@@ -1957,7 +2037,6 @@ CONFIG_PACKAGE_ipq-wifi-link_nn6000=y
 # CONFIG_PACKAGE_ipq-wifi-tplink_deco-x80-5g is not set
 # CONFIG_PACKAGE_ipq-wifi-tplink_eap610od is not set
 # CONFIG_PACKAGE_ipq-wifi-tplink_eap620hd-v1 is not set
-# CONFIG_PACKAGE_ipq-wifi-tplink_eap620hd-v3 is not set
 # CONFIG_PACKAGE_ipq-wifi-tplink_eap623od-hd-v1 is not set
 # CONFIG_PACKAGE_ipq-wifi-tplink_eap625od-hd-v1 is not set
 # CONFIG_PACKAGE_ipq-wifi-tplink_eap660hd-v1 is not set
@@ -1982,7 +2061,6 @@ CONFIG_PACKAGE_ipq-wifi-link_nn6000=y
 # CONFIG_PACKAGE_ipq-wifi-zte_mf287 is not set
 # CONFIG_PACKAGE_ipq-wifi-zte_mf287plus is not set
 # CONFIG_PACKAGE_ipq-wifi-zyxel_nbg7815 is not set
-# CONFIG_PACKAGE_ipq-wifi-zyxel_nwa110ax is not set
 # CONFIG_PACKAGE_ipq-wifi-zyxel_nwa210ax is not set
 # CONFIG_PACKAGE_ipq-wifi-zyxel_scr50axe is not set
 # end of ath10k Board-Specific Overrides
@@ -2446,7 +2524,6 @@ CONFIG_PACKAGE_kmod-gpio-button-hotplug=y
 # CONFIG_PACKAGE_kmod-hwmon-ad7418 is not set
 # CONFIG_PACKAGE_kmod-hwmon-adcxx is not set
 # CONFIG_PACKAGE_kmod-hwmon-adt7410 is not set
-# CONFIG_PACKAGE_kmod-hwmon-adt7470 is not set
 # CONFIG_PACKAGE_kmod-hwmon-adt7475 is not set
 CONFIG_PACKAGE_kmod-hwmon-core=y
 # CONFIG_PACKAGE_kmod-hwmon-dme1737 is not set
@@ -2724,6 +2801,7 @@ CONFIG_PACKAGE_kmod-ipt-physdev=y
 CONFIG_PACKAGE_kmod-nf-conncount=y
 CONFIG_PACKAGE_kmod-nf-conntrack=y
 CONFIG_PACKAGE_kmod-nf-conntrack-netlink=y
+CONFIG_PACKAGE_kmod-nf-conntrack6=y
 CONFIG_PACKAGE_kmod-nf-flow=y
 CONFIG_PACKAGE_kmod-nf-ipt=y
 CONFIG_PACKAGE_kmod-nf-ipt6=y
@@ -3588,7 +3666,7 @@ CONFIG_HAS_LUAJIT_ARCH=y
 #
 # Node.js
 #
-CONFIG_PACKAGE_node=y
+# CONFIG_PACKAGE_node is not set
 
 #
 # Configuration
@@ -3596,9 +3674,6 @@ CONFIG_PACKAGE_node=y
 # CONFIG_NODEJS_20 is not set
 CONFIG_NODEJS_22=y
 # CONFIG_NODEJS_24 is not set
-# CONFIG_NODEJS_ICU_NONE is not set
-CONFIG_NODEJS_ICU_SMALL=y
-# CONFIG_NODEJS_ICU_SYSTEM is not set
 # CONFIG_NODEJS_NPM_KEEP_CACHE is not set
 CONFIG_NODEJS_NPM_CACHE_DIR=""
 # CONFIG_NODEJS_HOST_BIN is not set
@@ -3778,12 +3853,15 @@ CONFIG_NODEJS_NPM_CACHE_DIR=""
 # CONFIG_PACKAGE_python3 is not set
 # CONFIG_PACKAGE_python3-RPi.GPIO is not set
 # CONFIG_PACKAGE_python3-aio-mqtt-mod is not set
+# CONFIG_PACKAGE_python3-aiohttp is not set
+# CONFIG_PACKAGE_python3-aiohttp-cors is not set
 # CONFIG_PACKAGE_python3-aiosignal is not set
 # CONFIG_PACKAGE_python3-apipkg is not set
 # CONFIG_PACKAGE_python3-apparmor is not set
 # CONFIG_PACKAGE_python3-appdirs is not set
 # CONFIG_PACKAGE_python3-argcomplete is not set
 # CONFIG_PACKAGE_python3-asgiref is not set
+# CONFIG_PACKAGE_python3-astral is not set
 # CONFIG_PACKAGE_python3-async-generator is not set
 # CONFIG_PACKAGE_python3-async-timeout is not set
 # CONFIG_PACKAGE_python3-asyncio is not set
@@ -3808,6 +3886,7 @@ CONFIG_NODEJS_NPM_CACHE_DIR=""
 # CONFIG_PACKAGE_python3-cffi is not set
 # CONFIG_PACKAGE_python3-chardet is not set
 # CONFIG_PACKAGE_python3-charset-normalizer is not set
+# CONFIG_PACKAGE_python3-ciso8601 is not set
 # CONFIG_PACKAGE_python3-click is not set
 # CONFIG_PACKAGE_python3-click-log is not set
 # CONFIG_PACKAGE_python3-codecs is not set
@@ -3896,6 +3975,7 @@ CONFIG_NODEJS_NPM_CACHE_DIR=""
 # CONFIG_PACKAGE_python3-maxminddb is not set
 # CONFIG_PACKAGE_python3-more-itertools is not set
 # CONFIG_PACKAGE_python3-msgpack is not set
+# CONFIG_PACKAGE_python3-multidict is not set
 # CONFIG_PACKAGE_python3-multiprocessing is not set
 # CONFIG_PACKAGE_python3-mutagen is not set
 # CONFIG_PACKAGE_python3-ncurses is not set
@@ -3997,6 +4077,8 @@ CONFIG_NODEJS_NPM_CACHE_DIR=""
 # CONFIG_PACKAGE_python3-uuid is not set
 # CONFIG_PACKAGE_python3-venv is not set
 # CONFIG_PACKAGE_python3-vobject is not set
+# CONFIG_PACKAGE_python3-voluptuous is not set
+# CONFIG_PACKAGE_python3-voluptuous-serialize is not set
 # CONFIG_PACKAGE_python3-wcwidth is not set
 # CONFIG_PACKAGE_python3-websocket-client is not set
 # CONFIG_PACKAGE_python3-websockets is not set
@@ -4004,6 +4086,7 @@ CONFIG_NODEJS_NPM_CACHE_DIR=""
 # CONFIG_PACKAGE_python3-xml is not set
 # CONFIG_PACKAGE_python3-xmltodict is not set
 # CONFIG_PACKAGE_python3-yaml is not set
+# CONFIG_PACKAGE_python3-yarl is not set
 # CONFIG_PACKAGE_python3-zeroconf is not set
 # CONFIG_PACKAGE_python3-zipp is not set
 # CONFIG_PACKAGE_python3-zope-event is not set
@@ -4014,6 +4097,7 @@ CONFIG_NODEJS_NPM_CACHE_DIR=""
 # Ruby
 #
 CONFIG_PACKAGE_ruby=y
+CONFIG_RUBY_ENABLE_YJIT=y
 
 #
 # Standard Library
@@ -4105,7 +4189,7 @@ CONFIG_PACKAGE_ruby-psych=y
 # CONFIG_PACKAGE_ruby-rss is not set
 # CONFIG_PACKAGE_ruby-ruby2_keywords is not set
 # CONFIG_PACKAGE_ruby-securerandom is not set
-# CONFIG_PACKAGE_ruby-setsubclasscompat is not set
+# CONFIG_PACKAGE_ruby-set is not set
 # CONFIG_PACKAGE_ruby-shellwords is not set
 # CONFIG_PACKAGE_ruby-singleton is not set
 # CONFIG_PACKAGE_ruby-socket is not set
@@ -4168,9 +4252,7 @@ CONFIG_PACKAGE_ucode-mod-uloop=y
 # CONFIG_PACKAGE_ucode-mod-zlib is not set
 # end of ucode
 
-# CONFIG_PACKAGE_chicken-scheme-full is not set
 # CONFIG_PACKAGE_chicken-scheme-interpreter is not set
-# CONFIG_PACKAGE_libchicken is not set
 # CONFIG_PACKAGE_quickjs is not set
 # CONFIG_PACKAGE_slsh is not set
 # end of Languages
@@ -4746,7 +4828,6 @@ CONFIG_PACKAGE_libopenssl=y
 # Build Options
 #
 CONFIG_OPENSSL_OPTIMIZE_SPEED=y
-# CONFIG_OPENSSL_KTLS is not set
 CONFIG_OPENSSL_WITH_ASM=y
 CONFIG_OPENSSL_WITH_DEPRECATED=y
 # CONFIG_OPENSSL_NO_DEPRECATED is not set
@@ -5304,8 +5385,6 @@ CONFIG_PACKAGE_libss=y
 # CONFIG_PACKAGE_libsysrepo is not set
 # CONFIG_PACKAGE_libtalloc is not set
 CONFIG_PACKAGE_libtasn1=y
-# CONFIG_PACKAGE_libteam is not set
-# CONFIG_PACKAGE_libteamdctl is not set
 # CONFIG_PACKAGE_libtheora is not set
 # CONFIG_PACKAGE_libtiff is not set
 # CONFIG_PACKAGE_libtins is not set
@@ -5524,7 +5603,6 @@ CONFIG_PACKAGE_luci-mod-system=y
 CONFIG_PACKAGE_luci-app-argon-config=y
 # CONFIG_PACKAGE_luci-app-aria2 is not set
 # CONFIG_PACKAGE_luci-app-arpbind is not set
-# CONFIG_PACKAGE_luci-app-athena-led is not set
 # CONFIG_PACKAGE_luci-app-attendedsysupgrade is not set
 CONFIG_PACKAGE_luci-app-autoreboot=y
 # CONFIG_PACKAGE_luci-app-babeld is not set
@@ -5583,6 +5661,7 @@ CONFIG_PACKAGE_luci-app-homeproxy=y
 # CONFIG_PACKAGE_luci-app-lorawan-basicstation is not set
 # CONFIG_PACKAGE_luci-app-microsocks is not set
 # CONFIG_PACKAGE_luci-app-minidlna is not set
+# CONFIG_PACKAGE_luci-app-mjpg-streamer is not set
 # CONFIG_PACKAGE_luci-app-modemband is not set
 # CONFIG_PACKAGE_luci-app-mosquitto is not set
 # CONFIG_PACKAGE_luci-app-msd_lite is not set
@@ -5676,12 +5755,11 @@ CONFIG_PACKAGE_luci-app-ttyd=y
 # CONFIG_PACKAGE_luci-app-ua2f is not set
 # CONFIG_PACKAGE_luci-app-udpxy is not set
 # CONFIG_PACKAGE_luci-app-uhttpd is not set
-CONFIG_PACKAGE_luci-app-unblockneteasemusic=y
+# CONFIG_PACKAGE_luci-app-unblockneteasemusic is not set
 # CONFIG_PACKAGE_luci-app-unbound is not set
 CONFIG_PACKAGE_luci-app-upnp=y
 # CONFIG_PACKAGE_luci-app-usb-printer is not set
 # CONFIG_PACKAGE_luci-app-usteer is not set
-# CONFIG_PACKAGE_luci-app-ustreamer is not set
 # CONFIG_PACKAGE_luci-app-v2raya is not set
 CONFIG_PACKAGE_luci-app-vlmcsd=m
 # CONFIG_PACKAGE_luci-app-vnstat2 is not set
@@ -6374,7 +6452,6 @@ CONFIG_PACKAGE_luci-lib-uqr=y
 # CONFIG_PACKAGE_motion-ffmpeg is not set
 # CONFIG_PACKAGE_motion-noffmpeg is not set
 # CONFIG_PACKAGE_tvheadend is not set
-# CONFIG_PACKAGE_ustreamer is not set
 # CONFIG_PACKAGE_v4l2camera is not set
 # CONFIG_PACKAGE_v4l2rtspserver is not set
 # CONFIG_PACKAGE_v4l2tools is not set
@@ -6631,7 +6708,6 @@ CONFIG_PACKAGE_avahi-dbus-daemon=y
 # CONFIG_BIND_JEMALLOC is not set
 # CONFIG_PACKAGE_bind-tools is not set
 # CONFIG_PACKAGE_chinadns-ng is not set
-# CONFIG_PACKAGE_coredns is not set
 CONFIG_PACKAGE_ddns-go=y
 # CONFIG_PACKAGE_ddns-scripts is not set
 # CONFIG_PACKAGE_ddns-scripts-services is not set
@@ -7126,8 +7202,20 @@ CONFIG_PACKAGE_cgi-io=y
 # CONFIG_PACKAGE_microsocks is not set
 # CONFIG_PACKAGE_naiveproxy is not set
 # CONFIG_PACKAGE_nginx-full is not set
+# CONFIG_PACKAGE_nginx-mod-brotli is not set
+# CONFIG_PACKAGE_nginx-mod-dav-ext is not set
+# CONFIG_PACKAGE_nginx-mod-geoip2 is not set
+# CONFIG_PACKAGE_nginx-mod-headers-more is not set
+# CONFIG_PACKAGE_nginx-mod-lua is not set
 # CONFIG_PACKAGE_nginx-mod-lua-resty-core is not set
 # CONFIG_PACKAGE_nginx-mod-lua-resty-lrucache is not set
+# CONFIG_PACKAGE_nginx-mod-luci is not set
+# CONFIG_PACKAGE_nginx-mod-naxsi is not set
+# CONFIG_PACKAGE_nginx-mod-njs is not set
+# CONFIG_PACKAGE_nginx-mod-rtmp is not set
+# CONFIG_PACKAGE_nginx-mod-stream is not set
+# CONFIG_PACKAGE_nginx-mod-ts is not set
+# CONFIG_PACKAGE_nginx-mod-ubus is not set
 # CONFIG_PACKAGE_nginx-ssl is not set
 # CONFIG_PACKAGE_nginx-ssl-util is not set
 # CONFIG_PACKAGE_nginx-ssl-util-nopcre is not set
@@ -7433,8 +7521,8 @@ CONFIG_PACKAGE_odhcpd-ipv6only=y
 # CONFIG_PACKAGE_openelp is not set
 # CONFIG_PACKAGE_openlist is not set
 # CONFIG_PACKAGE_openthread-br is not set
-# CONFIG_PACKAGE_oping is not set
 # CONFIG_PACKAGE_oscam is not set
+# CONFIG_PACKAGE_oping is not set
 # CONFIG_PACKAGE_pagekitec is not set
 # CONFIG_PACKAGE_pcapplusplus is not set
 # CONFIG_PACKAGE_pen is not set
@@ -7523,9 +7611,6 @@ CONFIG_SAMBA4_SERVER_VFS=y
 # CONFIG_PACKAGE_tcpdump is not set
 # CONFIG_PACKAGE_tcpdump-mini is not set
 # CONFIG_PACKAGE_tcping is not set
-# CONFIG_PACKAGE_teamd is not set
-# CONFIG_PACKAGE_teamdctl is not set
-# CONFIG_PACKAGE_teamnl is not set
 # CONFIG_PACKAGE_telnet-bsd is not set
 # CONFIG_PACKAGE_tgt is not set
 # CONFIG_PACKAGE_tinyPortMapper is not set
@@ -8467,7 +8552,6 @@ CONFIG_PACKAGE_openssl-util=y
 # CONFIG_PACKAGE_rev is not set
 # CONFIG_PACKAGE_rhash is not set
 # CONFIG_PACKAGE_ripgrep is not set
-# CONFIG_PACKAGE_rlwrap is not set
 # CONFIG_PACKAGE_rng-tools is not set
 # CONFIG_PACKAGE_rtl-ais is not set
 # CONFIG_PACKAGE_rtl-sdr is not set
@@ -8700,9 +8784,7 @@ CONFIG_KERNEL_SKB_RECYCLER_MULTI_CPU=y
 # CONFIG_KERNEL_SKB_RECYCLER_PREALLOC is not set
 # CONFIG_KERNEL_SKB_FIXED_SIZE_2K is not set
 # CONFIG_KERNEL_ALLOC_SKB_PAGE_FRAG_DISABLE is not set
+CONFIG_KERNEL_PREEMPT_NONE=y
+CONFIG_KERNEL_PREEMPT_NONE_BUILD=y
+# CONFIG_KERNEL_PREEMPT is not set
 # end of Qualcomm IPQ Options
-
-CONFIG_PACKAGE_kmod-usb2-pci=y
-CONFIG_PACKAGE_kmod-vxlan=y
-CONFIG_PACKAGE_kmod-wireguard=y
-CONFIG_PACKAGE_kmod-zram=y
