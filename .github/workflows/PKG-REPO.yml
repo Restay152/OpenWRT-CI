@@ -156,46 +156,34 @@ jobs:
               PKG_COUNT=$(ls "$CATEGORY_DIR"/*.ipk | wc -l)
               echo "Processing $CATEGORY: $PKG_COUNT packages"
 
-              #复制ipk文件到仓库目录
               REPO_CAT="$GITHUB_WORKSPACE/repo/$WRT_ARCH/$CATEGORY"
               mkdir -p "$REPO_CAT"
               cp -f "$CATEGORY_DIR"/*.ipk "$REPO_CAT/"
 
-              #使用OpenWRT内置脚本生成索引
               cd "$REPO_CAT"
               if [ -f "$OLDPWD/scripts/ipkg-make-index.sh" ]; then
                 bash "$OLDPWD/scripts/ipkg-make-index.sh" . > Packages
               else
-                #手动从ipk中提取control信息生成索引
                 rm -f Packages
                 for f in *.ipk; do
                   TMP_DIR=$(mktemp -d)
                   cd "$TMP_DIR"
-                  ar -x "$OLDPWD/$f" control.tar.gz 2>/dev/null && \
-                  tar -xzf control.tar.gz ./control 2>/dev/null && \
-                  PKG_NAME=$(grep "^Package:" ./control | head -1 | sed 's/^Package: *//') && \
-                  PKG_VERSION=$(grep "^Version:" ./control | head -1 | sed 's/^Version: *//') && \
-                  PKG_ARCH=$(grep "^Architecture:" ./control | head -1 | sed 's/^Architecture: *//') && \
-                  PKG_DESC=$(grep "^Description:" ./control | head -1 | sed 's/^Description: *//') && \
-                  PKG_SIZE=$(stat -c%s "$OLDPWD/$f" 2>/dev/null || echo 0) && \
-                  PKG_MD5=$(md5sum "$OLDPWD/$f" | cut -d' ' -f1) && \
-                  PKG_SHA256=$(sha256sum "$OLDPWD/$f" | cut -d' ' -f1) && \
-                  cat >> "$OLDPWD/Packages" << INDEXEOF
-Package: $PKG_NAME
-Version: $PKG_VERSION
-Architecture: $PKG_ARCH
-Depends: $(grep "^Depends:" ./control | head -1 | sed 's/^Depends: *//')
-Provides: $(grep "^Provides:" ./control | head -1 | sed 's/^Provides: *//')
-License: $(grep "^License:" ./control | head -1 | sed 's/^License: *//')
-Section: $(grep "^Section:" ./control | head -1 | sed 's/^Section: *//')
-Maintainer: $(grep "^Maintainer:" ./control | head -1 | sed 's/^Maintainer: *//')
-Size: $PKG_SIZE
-MD5Sum: $PKG_MD5
-SHA256Sum: $PKG_SHA256
-Description: $PKG_DESC
-Filename: $f
-
-INDEXEOF
+                  if ar -x "$OLDPWD/$f" control.tar.gz 2>/dev/null && tar -xzf control.tar.gz ./control 2>/dev/null; then
+                    PKG_NAME=$(grep "^Package:" ./control | head -1 | sed 's/^Package: *//')
+                    PKG_VERSION=$(grep "^Version:" ./control | head -1 | sed 's/^Version: *//')
+                    PKG_ARCH=$(grep "^Architecture:" ./control | head -1 | sed 's/^Architecture: *//')
+                    PKG_SIZE=$(stat -c%s "$OLDPWD/$f" 2>/dev/null || echo 0)
+                    PKG_MD5=$(md5sum "$OLDPWD/$f" | cut -d' ' -f1)
+                    PKG_SHA256=$(sha256sum "$OLDPWD/$f" | cut -d' ' -f1)
+                    echo "Package: $PKG_NAME" >> "$OLDPWD/Packages"
+                    echo "Version: $PKG_VERSION" >> "$OLDPWD/Packages"
+                    echo "Architecture: $PKG_ARCH" >> "$OLDPWD/Packages"
+                    echo "Size: $PKG_SIZE" >> "$OLDPWD/Packages"
+                    echo "MD5Sum: $PKG_MD5" >> "$OLDPWD/Packages"
+                    echo "SHA256Sum: $PKG_SHA256" >> "$OLDPWD/Packages"
+                    echo "Filename: $f" >> "$OLDPWD/Packages"
+                    echo "" >> "$OLDPWD/Packages"
+                  fi
                   cd "$OLDPWD"
                   rm -rf "$TMP_DIR"
                 done
@@ -203,7 +191,6 @@ INDEXEOF
 
               gzip -9c Packages > Packages.gz
               cd -
-
               echo "Index generated for $CATEGORY"
             fi
           done
