@@ -1,0 +1,255 @@
+#opkg软件包仓库构建
+name: PKG-REPO
+
+#触发条件
+on:
+  #推送触发
+  push:
+    branches: [pkg-create]
+    paths:
+      - 'Scripts/**'
+      - 'Config/**'
+      - '.github/workflows/PKG-REPO.yml'
+  #手动触发
+  workflow_dispatch:
+
+#CI权限
+permissions: write-all
+
+#CI任务
+jobs:
+  build:
+    name: Build Packages
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Projects
+        uses: actions/checkout@main
+
+      - name: Initialization Environment
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo -E apt -yqq purge firefox
+          sudo -E apt -yqq update
+          sudo -E apt -yqq full-upgrade
+          sudo -E apt -yqq autoremove --purge
+          sudo -E apt -yqq autoclean
+          sudo -E apt -yqq clean
+          sudo -E apt -yqq install dos2unix python3-netifaces libfuse-dev
+          sudo bash -c 'bash <(curl -sL https://build-scripts.immortalwrt.org/init_build_environment.sh)'
+          sudo -E systemctl daemon-reload
+          sudo -E timedatectl set-timezone "Asia/Shanghai"
+
+          sudo mkdir -p /mnt/build_wrt
+          sudo chown $USER:$USER /mnt/build_wrt
+          sudo ln -s /mnt/build_wrt $GITHUB_WORKSPACE/wrt
+
+      - name: Initialization Values
+        run: |
+          echo "WRT_DATE=$(TZ=UTC-8 date +"%y.%m.%d-%H.%M.%S")" >> $GITHUB_ENV
+          echo "WRT_CONFIG=IPQ60XX-WIFI-YES" >> $GITHUB_ENV
+          echo "WRT_TARGET=qualcommax" >> $GITHUB_ENV
+          echo "WRT_ARCH=aarch64_cortex-a53" >> $GITHUB_ENV
+          echo "WRT_INFO=LiBwrt" >> $GITHUB_ENV
+          echo "WRT_SOURCE=LiBwrt/openwrt-6.x" >> $GITHUB_ENV
+          echo "WRT_REPO=https://github.com/LiBwrt/openwrt-6.x.git" >> $GITHUB_ENV
+          echo "WRT_BRANCH=25.12-nss" >> $GITHUB_ENV
+
+      - name: Clone Code
+        run: |
+          git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
+          cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
+
+          PROJECT_MIRRORS_FILE="./scripts/projectsmirrors.json"
+          if [ -f "$PROJECT_MIRRORS_FILE" ]; then
+            sed -i '/.cn\//d; /tencent/d; /aliyun/d' "$PROJECT_MIRRORS_FILE"
+          fi
+
+      - name: Check Scripts
+        run: |
+          find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
+
+      - name: Check Caches
+        id: check-cache
+        uses: actions/cache@main
+        with:
+          key: pkg-repo-${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{env.WRT_HASH}}
+          restore-keys: pkg-repo-${{env.WRT_CONFIG}}-${{env.WRT_INFO}}
+          path: |
+            ./wrt/.ccache
+            ./wrt/staging_dir/host*
+            ./wrt/staging_dir/tool*
+
+      - name: Update Caches
+        run: |
+          if [ -d "./wrt/staging_dir" ]; then
+            find "./wrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
+              find "$DIR" -type f -exec touch {} +
+            done
+
+            mkdir -p ./wrt/tmp && echo "1" > ./wrt/tmp/.build
+
+            echo "toolchain skiped done!"
+          else
+            echo "caches missed!"
+          fi
+
+          if ${{steps.check-cache.outputs.cache-hit != 'true'}}; then
+            CACHE_LIST=$(gh cache list --key "pkg-repo-$WRT_CONFIG-$WRT_INFO" | cut -f 1)
+            for CACHE_KEY in $CACHE_LIST; do
+              gh cache delete $CACHE_KEY
+            done
+
+            echo "caches cleanup done!"
+          fi
+
+      - name: Update Feeds
+        run: |
+          cd ./wrt/
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
+
+      - name: Custom Packages
+        run: |
+          cd ./wrt/package/
+          $GITHUB_WORKSPACE/Scripts/Packages.sh
+          $GITHUB_WORKSPACE/Scripts/Handles.sh
+
+      - name: Custom Settings
+        run: |
+          cd ./wrt/
+          cat $GITHUB_WORKSPACE/Config/$WRT_CONFIG.txt $GITHUB_WORKSPACE/Config/GENERAL.txt >> .config
+          $GITHUB_WORKSPACE/Scripts/Settings.sh
+
+          #禁用签名验证（自建仓库不需要）
+          sed -i 's/CONFIG_SIGNED_PACKAGES=y/# CONFIG_SIGNED_PACKAGES is not set/' .config
+          sed -i 's/CONFIG_SIGNATURE_CHECK=y/# CONFIG_SIGNATURE_CHECK is not set/' .config
+
+          make defconfig -j$(nproc) && make clean -j$(nproc)
+
+      - name: Download Packages
+        run: |
+          cd ./wrt/
+          make download -j$(nproc)
+
+      - name: Compile Toolchain
+        run: |
+          cd ./wrt/
+          make tools/install -j$(nproc) || make tools/install -j1 V=s
+          make toolchain/install -j$(nproc) || make toolchain/install -j1 V=s
+
+      - name: Compile Packages
+        run: |
+          cd ./wrt/
+          make package/compile -j$(nproc) || make package/compile -j1 V=s
+
+      - name: Generate Repository Index
+        run: |
+          cd ./wrt/
+
+          PKG_BASE="bin/packages/$WRT_ARCH"
+          mkdir -p $GITHUB_WORKSPACE/repo/$WRT_ARCH
+
+          for CATEGORY in $(ls $PKG_BASE/ 2>/dev/null); do
+            CATEGORY_DIR="$PKG_BASE/$CATEGORY"
+            if [ -d "$CATEGORY_DIR" ] && ls "$CATEGORY_DIR"/*.ipk >/dev/null 2>&1; then
+              PKG_COUNT=$(ls "$CATEGORY_DIR"/*.ipk | wc -l)
+              echo "Processing $CATEGORY: $PKG_COUNT packages"
+
+              #复制ipk文件到仓库目录
+              REPO_CAT="$GITHUB_WORKSPACE/repo/$WRT_ARCH/$CATEGORY"
+              mkdir -p "$REPO_CAT"
+              cp -f "$CATEGORY_DIR"/*.ipk "$REPO_CAT/"
+
+              #使用OpenWRT内置脚本生成索引
+              cd "$REPO_CAT"
+              if [ -f "$OLDPWD/scripts/ipkg-make-index.sh" ]; then
+                bash "$OLDPWD/scripts/ipkg-make-index.sh" . > Packages
+              else
+                #手动从ipk中提取control信息生成索引
+                rm -f Packages
+                for f in *.ipk; do
+                  TMP_DIR=$(mktemp -d)
+                  cd "$TMP_DIR"
+                  ar -x "$OLDPWD/$f" control.tar.gz 2>/dev/null && \
+                  tar -xzf control.tar.gz ./control 2>/dev/null && \
+                  PKG_NAME=$(grep "^Package:" ./control | head -1 | sed 's/^Package: *//') && \
+                  PKG_VERSION=$(grep "^Version:" ./control | head -1 | sed 's/^Version: *//') && \
+                  PKG_ARCH=$(grep "^Architecture:" ./control | head -1 | sed 's/^Architecture: *//') && \
+                  PKG_DESC=$(grep "^Description:" ./control | head -1 | sed 's/^Description: *//') && \
+                  PKG_SIZE=$(stat -c%s "$OLDPWD/$f" 2>/dev/null || echo 0) && \
+                  PKG_MD5=$(md5sum "$OLDPWD/$f" | cut -d' ' -f1) && \
+                  PKG_SHA256=$(sha256sum "$OLDPWD/$f" | cut -d' ' -f1) && \
+                  cat >> "$OLDPWD/Packages" << INDEXEOF
+Package: $PKG_NAME
+Version: $PKG_VERSION
+Architecture: $PKG_ARCH
+Depends: $(grep "^Depends:" ./control | head -1 | sed 's/^Depends: *//')
+Provides: $(grep "^Provides:" ./control | head -1 | sed 's/^Provides: *//')
+License: $(grep "^License:" ./control | head -1 | sed 's/^License: *//')
+Section: $(grep "^Section:" ./control | head -1 | sed 's/^Section: *//')
+Maintainer: $(grep "^Maintainer:" ./control | head -1 | sed 's/^Maintainer: *//')
+Size: $PKG_SIZE
+MD5Sum: $PKG_MD5
+SHA256Sum: $PKG_SHA256
+Description: $PKG_DESC
+Filename: $f
+
+INDEXEOF
+                  cd "$OLDPWD"
+                  rm -rf "$TMP_DIR"
+                done
+              fi
+
+              gzip -9c Packages > Packages.gz
+              cd -
+
+              echo "Index generated for $CATEGORY"
+            fi
+          done
+
+      - name: Repository Statistics
+        run: |
+          echo "======================="
+          echo "Repository Statistics"
+          echo "======================="
+          REPO_DIR="$GITHUB_WORKSPACE/repo/$WRT_ARCH"
+          TOTAL=0
+          for d in $REPO_DIR/*/; do
+            if [ -d "$d" ] && ls "$d"/*.ipk >/dev/null 2>&1; then
+              COUNT=$(ls "$d"/*.ipk | wc -l)
+              TOTAL=$((TOTAL + COUNT))
+              echo "$(basename $d): $COUNT packages"
+            fi
+          done
+          echo "======================="
+          echo "Total: $TOTAL packages"
+          echo "======================="
+
+      - name: Upload Repository
+        uses: actions/upload-artifact@main
+        with:
+          name: opkg-repo-${{env.WRT_CONFIG}}-${{env.WRT_INFO}}-${{env.WRT_HASH}}-${{env.WRT_DATE}}
+          path: repo/
+          retention-days: 5
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download Repository Artifact
+        uses: actions/download-artifact@main
+        with:
+          name: opkg-repo-*
+          path: repo/
+
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@main
